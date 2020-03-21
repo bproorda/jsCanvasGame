@@ -31,6 +31,7 @@ var score = 0;
 //event listeners
 document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
+document.addEventListener('mousemove', mouseMoveHandler, false);
 
 //player controls
 function keyDownHandler(e) {
@@ -48,6 +49,12 @@ function keyUpHandler(e) {
   }
   else if(e.key === 'Left' || e.key === 'ArrowLeft') {
     leftPressed = false;
+  }
+}
+function mouseMoveHandler(e) {
+  var relativeX = e.clientX - canvas.offsetLeft;
+  if(relativeX > 0 && relativeX < canvas.width) {
+    paddleX = relativeX - paddleWidth/2;
   }
 }
 
@@ -100,6 +107,7 @@ function collisionDetection() {
       if(b.status === 1) {
         if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
           dy = -dy;
+          ballColor = 'blue';
           b.status = 0;
           score++;
           if(score === brickRowCount*brickColumnCount) {
